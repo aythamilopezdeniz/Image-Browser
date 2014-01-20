@@ -2,12 +2,15 @@ package UserInterface.Swing;
 
 import Model.Image;
 import UserInterface.ImageViewer;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel implements ImageViewer {
+    private Image image;
     private int position;
     private int pressedX;
 
@@ -16,7 +19,6 @@ public class ImagePanel extends JPanel implements ImageViewer {
         this.hookEvents();
     }
 
-    private Image image;
 
     @Override
     public Image getImage() {
@@ -27,6 +29,23 @@ public class ImagePanel extends JPanel implements ImageViewer {
     public void setImage(Image image) {
         this.image = image;
         repaint();
+    }
+
+    @Override
+    public void paint(Graphics graphics) {
+        if(image==null)return;
+        super.paint(graphics);
+        graphics.drawImage(getBufferedImage(image), position, 0, null);
+        if(position==0)return;
+        if(position<0)graphics.drawImage(getBufferedImage(image.getNext()), 
+                image.getBitmap().getWidth()+position, 0, null);
+        if(position>0)graphics.drawImage(getBufferedImage(image.getPrev()), 
+                position-image.getBitmap().getHeight(), 0, null);
+    }
+
+    private BufferedImage getBufferedImage(Image image) {
+        SwingBitmap swingBitmap=(SwingBitmap) image.getBitmap();
+        return swingBitmap.getBufferedImage();
     }
 
     private void hookEvents() {
@@ -43,11 +62,8 @@ public class ImagePanel extends JPanel implements ImageViewer {
 
             @Override
             public void mouseReleased(MouseEvent me) {
-                if (position > image.getBitmap().getWidth() / 2) {
-                    showPrevImage();
-                } else if (position < image.getBitmap().getWidth() / 2) {
-                    showNextImage();
-                }
+                if (position > image.getBitmap().getWidth() / 2)showPrevImage();
+                else if (position < image.getBitmap().getWidth() / 2)showNextImage();
                 position = 0;
                 repaint();
             }
@@ -75,12 +91,14 @@ public class ImagePanel extends JPanel implements ImageViewer {
         });
     }
 
-    private void showNextImage() {
+    @Override
+    public void showNextImage() {
         image = image.getNext();
         repaint();
     }
 
-    private void showPrevImage() {
+    @Override
+    public void showPrevImage() {
         image = image.getPrev();
         repaint();
     }

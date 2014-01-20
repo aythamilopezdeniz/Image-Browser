@@ -10,5 +10,6 @@ public class NextImageCommand extends ImageCommand {
     
     @Override
     public void execute(){
+        this.getImageViewer().showNextImage();
     }
 }

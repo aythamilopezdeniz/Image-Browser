@@ -10,5 +10,6 @@ public class PrevImageCommand extends ImageCommand {
     
     @Override
     public void execute(){
+        this.getImageViewer().showPrevImage();
     }
 }

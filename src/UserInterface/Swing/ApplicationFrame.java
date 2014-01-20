@@ -2,6 +2,7 @@ package UserInterface.Swing;
 
 import UserInterface.ImageViewer;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,10 +14,11 @@ public class ApplicationFrame extends JFrame {
     public ApplicationFrame(ActionListenerFactory factory) {
         this.setTitle("Image Browser");
         this.factory=factory;
-        this.setSize(400, 300);
+        this.setMinimumSize(new Dimension(1024,768));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         createComponents();
         this.setLocationRelativeTo(null);
+        this.pack();
     }
     
     public ImageViewer getImageViewer(){
@@ -36,13 +38,13 @@ public class ApplicationFrame extends JFrame {
     }
 
     private JButton createButtonPrev() {
-        JButton buttonPrev=new JButton();
+        JButton buttonPrev=new JButton("Prev");
         buttonPrev.addActionListener(factory.CreateAction("Prev"));
         return buttonPrev;
     }
 
     private JButton createButtonNext() {
-        JButton buttonNext=new JButton();
+        JButton buttonNext=new JButton("Next");
         buttonNext.addActionListener(factory.CreateAction("Next"));
         return buttonNext;
     }
