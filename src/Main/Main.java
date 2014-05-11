@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
  public class Main {
-     private static final String path="C:\\Users\\Public\\Pictures\\Sample Pictures";
+    private static final String path="C:\\Users\\Public\\Pictures\\Sample Pictures";
     private HashMap<String, Command> commandMap;
     private ApplicationFrame frame;
 
